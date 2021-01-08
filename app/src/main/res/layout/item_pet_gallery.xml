@@ -1,39 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="petData"
+            type="com.example.petgalleryapp.model.remote.PetData" />
+
+        <variable
+            name="viewModel"
+            type="com.example.petgalleryapp.ui.home.HomeViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_marginVertical="@dimen/size_10">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_user_avatar"
-            android:src="@drawable/ic_pretty_girl"
             android:layout_width="@dimen/size_48"
             android:layout_height="@dimen/size_48"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/size_10"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_pretty_girl"
             app:layout_constraintStart_toStartOf="parent"
-            app:shapeAppearanceOverlay="@style/circleImageView"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circleImageView" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/size_10"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/img_user_avatar"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/img_thumbnail"
+            app:layout_constraintStart_toEndOf="@id/img_user_avatar"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_thumbnail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/size_200"
+            android:layout_marginVertical="@dimen/size_10"
             android:maxHeight="@dimen/size_400"
+            android:minHeight="@dimen/size_200"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toBottomOf="@id/img_user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/img_user_avatar" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_like"
+            android:layout_width="@dimen/size_48"
+            android:layout_height="@dimen/size_48"
+            android:layout_marginHorizontal="@dimen/size_10"
+            android:layout_marginTop="@dimen/size_10"
+            android:background="@drawable/bg_pet_item_action"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_like"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_thumbnail" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_add"
+            android:layout_width="@dimen/size_48"
+            android:layout_height="@dimen/size_48"
+            android:layout_marginHorizontal="@dimen/size_10"
+            android:layout_marginTop="@dimen/size_10"
+            android:background="@drawable/bg_pet_item_action"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_add"
+            app:layout_constraintStart_toEndOf="@id/img_like"
+            app:layout_constraintTop_toBottomOf="@id/img_thumbnail" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_10"
+            android:layout_marginTop="@dimen/size_10"
+            android:background="@drawable/bg_btn_download"
+            android:foreground="?selectableItemBackground"
+            android:text="@string/text_down_load_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_thumbnail" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
