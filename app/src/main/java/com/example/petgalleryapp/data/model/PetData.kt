@@ -1,4 +1,4 @@
-package com.example.petgalleryapp.model.remote
+package com.example.petgalleryapp.data.model
 
 data class PetData(
     val id : Int = 0,

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="petData"
-            type="com.example.petgalleryapp.model.remote.PetData" />
+            type="com.example.petgalleryapp.data.model.PetData" />
 
         <variable
             name="viewModel"
@@ -38,6 +38,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_16"
             android:textStyle="bold"
+            android:text="@{petData.user.name}"
             app:layout_constraintBottom_toTopOf="@+id/img_thumbnail"
             app:layout_constraintStart_toEndOf="@id/img_user_avatar"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,6 +50,7 @@
             android:layout_marginVertical="@dimen/size_10"
             android:maxHeight="@dimen/size_400"
             android:minHeight="@dimen/size_200"
+            android:background="@color/purple_200"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +67,6 @@
             android:src="@drawable/ic_like"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_thumbnail" />
-
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_add"

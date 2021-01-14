@@ -1,7 +1,6 @@
 package com.example.petgalleryapp.ui.home.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.petgalleryapp.R
 import com.example.petgalleryapp.databinding.ItemPetGalleryBinding
-import com.example.petgalleryapp.model.remote.PetData
+import com.example.petgalleryapp.data.model.PetData
 import com.example.petgalleryapp.ui.home.HomeViewModel
 
 class PetGalleryAdapter(
@@ -17,21 +16,29 @@ class PetGalleryAdapter(
 ) : ListAdapter<PetData, PetGalleryAdapter.PetViewHolder>(DIFF_CALLBACK){
     inner class PetViewHolder(private val parent : ViewGroup,
                               private val binding : ItemPetGalleryBinding =
-                                  DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_pet_gallery, parent, false))
+                                  DataBindingUtil.inflate(LayoutInflater.from(parent.context),
+                                      R.layout.item_pet_gallery, parent, false))
         : RecyclerView.ViewHolder(binding.root){
-            fun bind(data : PetData, viewModel: HomeViewModel) {
-
+            fun bind(data : PetData, homeViewModel: HomeViewModel) {
+                binding.apply {
+                    petData = data
+                    viewModel = homeViewModel
+                }
             }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetViewHolder {
-        TODO("Not yet implemented")
+        return PetViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: PetViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val itemData = getItem(position)
+        holder.bind(itemData, viewModel)
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
 
     companion object {
 
