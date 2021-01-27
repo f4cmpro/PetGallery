@@ -1,5 +1,6 @@
 package com.example.petgalleryapp.data.source
 
+import android.os.Build
 import com.example.petgalleryapp.BuildConfig
 import com.example.petgalleryapp.PGApplication.Companion.context
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -16,8 +17,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.FileNotFoundException
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ApiManager constructor() {
+@Singleton
+class ApiManager @Inject constructor() {
     private lateinit var retrofit: Retrofit
 
     companion object {
@@ -42,7 +46,7 @@ class ApiManager constructor() {
 
                 //header
                 val requestBuilder = original.newBuilder()
-//                    .header("Accept", "application/json")
+                    .header("Content-Type", "application/json")
                     .method(original.method, original.body)
                     .url(url)
 
@@ -59,17 +63,6 @@ class ApiManager constructor() {
                 } catch (e: FileNotFoundException) { "" }
 
                 val rawBody = if (stubBody.isNullOrEmpty()) responseBody.string() else stubBody
-//                val commonResponse = Gson().fromJson<CommonResponse>(rawBody, CommonResponse::class.java)
-//                if ((commonResponse.error.code == ErrorCode.EXPIRED_ACCESS_TOKEN ||
-//                            commonResponse.error.code == ErrorCode.UNKNOWN_ERROR) && RaeHelper.refreshLoginInfo()) {
-//                    // エラーコードに、アクセストークン期限切れ(error.code: 10000301)または(error.code: 19999999)が返ったときは、
-//                    // AccessTokenを取得し直して、Httpリクエストを再送信する
-//                    requestBuilder.header(authorizationName,
-//                        "$authorizationValuePrefix ${(context as NbaApplication).decryptedAccessToken}")
-//                    return@Interceptor chain.proceed(requestBuilder.build())
-//                } else {
-//                    return@Interceptor response.newBuilder().body(ResponseBody.create(responseBody.contentType(), rawBody)).build()
-//                }
                 return@Interceptor response.newBuilder().body(rawBody.toResponseBody(responseBody.contentType())).build()
             })
             .readTimeout(30, TimeUnit.SECONDS)

@@ -1,5 +1,6 @@
 package com.example.petgalleryapp.data.source
 
+import com.example.petgalleryapp.data.model.PetData
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -83,5 +84,9 @@ interface IRepository {
         }
 
         return if(failedResult.isEmpty()) successResult else failedResult
+    }
+
+    suspend fun executeList(request : Deferred<List<PetData>>) : List<PetData>{
+        return request.await()
     }
 }

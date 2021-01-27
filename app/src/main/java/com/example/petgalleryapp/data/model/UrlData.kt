@@ -5,9 +5,9 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 @Suppress("PropertyName")
 data class UrlData(
-    val full: String = "",
-    val raw: String = "",
-    val regular: String = "",
-    val small: String = "",
-    val thumb: String = ""
+    val full: String? = "",
+    val raw: String? = "",
+    val regular: String? = "",
+    val small: String? = "",
+    val thumb: String? = ""
 )

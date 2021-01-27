@@ -23,6 +23,8 @@ class PetGalleryAdapter(
                 binding.apply {
                     petData = data
                     viewModel = homeViewModel
+                    binding.notifyChange()
+                    binding.executePendingBindings()
                 }
             }
     }

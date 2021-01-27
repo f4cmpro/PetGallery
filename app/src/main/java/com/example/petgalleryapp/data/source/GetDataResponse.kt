@@ -1,8 +1,7 @@
-package jp.co.rakuten.livestreaming.data.source.remote
+package com.example.petgalleryapp.data.source
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import jp.co.rakuten.livestreaming.data.source.remote.api.ResponseBase
 
 @JsonClass(generateAdapter = true)
 data class GetDataResponse <T>(
