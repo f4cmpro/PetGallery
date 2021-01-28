@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.example.petgalleryapp.ui.BaseViewModel.LoadState"/>
+
+        <variable
+            name="state"
+            type="com.example.petgalleryapp.ui.BaseViewModel.LoadState" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/size_5"
+            android:layout_marginBottom="@dimen/size_5"
+            android:visibility="@{state.isLoading()? View.VISIBLE : View.GONE}" />
+    </RelativeLayout>
+</layout>

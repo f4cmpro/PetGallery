@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.petgalleryapp.R
 import com.example.petgalleryapp.databinding.FragmentHomeBinding
 import com.example.petgalleryapp.ui.home.adapter.PetGalleryAdapter
@@ -36,14 +37,48 @@ class HomeFragment : Fragment() {
         binding.recyclerHome.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = petGalleryAdapter
+            addOnScrollListener(scrollListener)
         }
 
         homeViewModel.apply {
-            fetchListData()
-
+            firstLoad()
             listPetData.observe(viewLifecycleOwner, {
                 petGalleryAdapter.submitList(it)
             })
+            loadingState.observe(viewLifecycleOwner, {
+
+            })
         }
+    }
+
+    /**
+     * Scroll listener
+     */
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val totalItemCount = layoutManager.itemCount
+            val lastVisibleItem = layoutManager.findLastVisibleItemPosition() + VISIBLE_THRESHOLD
+
+            val reachedVisibleThreshold = lastVisibleItem >= totalItemCount - 1
+
+            if (reachedVisibleThreshold) {
+                homeViewModel.loadMore()
+            }
+        }
+    }
+
+    companion object {
+        // The minimum number of items to have below your current scroll position before loading more.
+        private const val VISIBLE_THRESHOLD = 3
+
+        /**
+         * Create new instance
+         *
+         * @return {@link HomeFragment}
+         */
+        fun newInstance() = HomeFragment()
     }
 }

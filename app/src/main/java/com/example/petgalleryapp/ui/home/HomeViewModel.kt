@@ -10,25 +10,23 @@ import com.example.petgalleryapp.data.model.PetData
 import com.example.petgalleryapp.data.model.UserData
 import com.example.petgalleryapp.data.source.TaskResult
 import com.example.petgalleryapp.data.source.repository.AnimalsRepository
+import com.example.petgalleryapp.ui.BaseViewModel
 import kotlinx.coroutines.launch
 
 class HomeViewModel @ViewModelInject constructor(
     private val animalsRepository: AnimalsRepository
-) : ViewModel() {
+) : BaseViewModel() {
+    private var page = 1
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-
-    val listPetData = MutableLiveData<List<PetData>>()
-    val text: LiveData<String> = _text
+    val listPetData = MutableLiveData<ArrayList<PetData>>()
 
 
-    fun fetchListData(){
+    fun firstLoad() {
+        page = 1
         viewModelScope.launch {
-            when(val res = animalsRepository.getAnimals(1, false)){
+            when(val res = animalsRepository.getAnimals(page)){
                 is TaskResult.Success -> {
-                    listPetData.value = res.value
+                    listPetData.value = ArrayList(res.value)
                 }
 
                 is TaskResult.Failure -> {
@@ -39,21 +37,27 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
 
-    private fun firstLoad() {
-        viewModelScope.launch {
-            val page = 1
-//            when(val response = timelineListUseCase.getTimelineList(page = page, isRefresh = true)) {
-//                is TaskResult.Success -> {
-//                    val dataList = response.value
-//                    canScroll = dataList.isNotEmpty() && dataList.size >= PAGE_SIZE
-//                    _pagingLoadState.postValue(if (dataList.isNotEmpty()) PagingLoadState.Loaded else PagingLoadState.Empty)
-//                }
-//
-//                is TaskResult.Failure -> {
-//                    _pagingLoadState.postValue(PagingLoadState.Error)
-//                }
-//
-//            }
+
+    fun loadMore() {
+        if(_loadingState.value == LoadState.None){
+            _loadingState.postValue(LoadState.Loading)
+            viewModelScope.launch {
+                when(val res = animalsRepository.getAnimals(++page)){
+                    is TaskResult.Success -> {
+                        listPetData.value?.let {
+                            it.addAll(res.value)
+                            listPetData.value = it
+                        }
+                        _loadingState.value = LoadState.None
+                    }
+
+                    is TaskResult.Failure -> {
+                        _loadingState.value = LoadState.None
+                        Log.d("TAG", "fetchListData: ${res.value}" )
+                    }
+                }
+            }
         }
+
     }
 }

@@ -10,7 +10,6 @@
         <variable
             name="viewModel"
             type="com.example.petgalleryapp.ui.home.HomeViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +26,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:loadUrl="@{petData.user.avatar}"
+            android:loadUrl="@{petData.user.profileImage.small}"
             app:shapeAppearanceOverlay="@style/circleImageView" />
 
         <com.google.android.material.textview.MaterialTextView
