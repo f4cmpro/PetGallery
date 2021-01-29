@@ -1,6 +1,7 @@
 package com.example.petgalleryapp.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class HomeFragment : Fragment() {
         homeViewModel.apply {
             firstLoad()
             listPetData.observe(viewLifecycleOwner, {
+                Log.d("TAG", "onViewCreated: ${it.size}")
                 petGalleryAdapter.submitList(it)
             })
             loadingState.observe(viewLifecycleOwner, {
@@ -63,6 +65,8 @@ class HomeFragment : Fragment() {
             val lastVisibleItem = layoutManager.findLastVisibleItemPosition() + VISIBLE_THRESHOLD
 
             val reachedVisibleThreshold = lastVisibleItem >= totalItemCount - 1
+
+            Log.d("TAG", "onScrolled: $lastVisibleItem - $totalItemCount - $reachedVisibleThreshold")
 
             if (reachedVisibleThreshold) {
                 homeViewModel.loadMore()
